@@ -1872,7 +1872,7 @@ namespace IronPython.Modules {
                 CodeContext/*!*/ context,
                 [DefaultParameterValue("")]string initial_value,
                 [DefaultParameterValue("utf-8")]string encoding,
-                [DefaultParameterValue("string")]string errors,
+                [DefaultParameterValue("strict")]string errors,
                 [DefaultParameterValue("\n")]string newline
             ) : base(context) {
             }
@@ -1881,10 +1881,12 @@ namespace IronPython.Modules {
                 CodeContext/*!*/ context,
                 [DefaultParameterValue("")]string initial_value,
                 [DefaultParameterValue("utf-8")]string encoding,
-                [DefaultParameterValue("string")]string errors,
+                [DefaultParameterValue("strict")]string errors,
                 [DefaultParameterValue("\n")]string newline
             ) {
-                base.__init__(context, new BytesIO(context), encoding, errors, newline, false);
+                BytesIO buffer = new BytesIO(context);
+                buffer.__init__(null);
+                base.__init__(context, buffer, encoding, errors, newline, false);
 
                 if (newline == null) {
                     _writeTranslate = false;
